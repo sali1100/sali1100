@@ -1065,7 +1065,7 @@ function generateEmailTemplate($order) {
                 </div>
                 <div class="detail-row">
                     <span><strong>VIN:</strong></span>
-                    <span>\' . $order["vin"] . \'</span>
+                    <span>' . $order["vin"] . '</span>
                 </div>
                 <div class="detail-row">
                     <span><strong>Report Type:</strong></span>
