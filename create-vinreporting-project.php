@@ -1117,12 +1117,1182 @@ $htaccessContent = 'Order Deny,Allow
 Deny from all';
 createFile('data/.htaccess', $htaccessContent);
 
-logMessage("✅ Core files created successfully!");
-logMessage("📝 Please check the generated files and configure:");
-logMessage("1. Update PayPal credentials in includes/config.php");
-logMessage("2. Change admin password in includes/config.php"); 
-logMessage("3. Configure email settings in includes/config.php");
-logMessage("4. Update domain URLs as needed");
+// Create CSS file
+$cssContent = '/* VinReporting.com - Main Stylesheet */
+
+:root {
+    --primary-color: #667eea;
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-color: #f093fb;
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --warning-color: #f59e0b;
+    --text-color: #1f2937;
+    --text-light: #6b7280;
+    --bg-color: #ffffff;
+    --bg-light: #f9fafb;
+    --border-color: #e5e7eb;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navigation */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.nav-logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.nav-logo i {
+    margin-right: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+.nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-gradient);
+    border-radius: 1px;
+}
+
+.nav-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+/* Main Content */
+.main-content {
+    margin-top: 80px;
+    min-height: calc(100vh - 80px);
+}
+
+/* Hero Section */
+.hero {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.05\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.hero-text h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.hero-text p {
+    font-size: 1.25rem;
+    margin-bottom: 3rem;
+    opacity: 0.9;
+}
+
+/* Form Styles */
+.hero-form {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.vin-form {
+    color: var(--text-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.vin-status {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    min-height: 20px;
+}
+
+.vin-status.valid {
+    color: var(--success-color);
+}
+
+.vin-status.invalid {
+    color: var(--error-color);
+}
+
+/* Buttons */
+.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border: 1px solid var(--border-color);
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+/* Features Section */
+.features {
+    padding: 4rem 0;
+    background: var(--bg-light);
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--text-color);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+/* Checkout Styles */
+.checkout {
+    padding: 2rem 0;
+}
+
+.checkout-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.order-summary h2,
+.payment-section h2 {
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.summary-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--primary-color);
+}
+
+.price {
+    font-weight: 700;
+}
+
+#paypal-button-container {
+    margin: 1rem 0;
+}
+
+.security-note {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-light);
+    font-size: 0.875rem;
+    margin-top: 1rem;
+}
+
+/* Report Preview */
+.report-preview {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.preview-blur {
+    position: relative;
+}
+
+.preview-content {
+    padding: 1rem;
+}
+
+.blur-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.unlock-text {
+    font-weight: 600;
+    color: var(--primary-color);
+    text-align: center;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+/* Thank You Page */
+.thank-you {
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.success-message {
+    margin-bottom: 3rem;
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: var(--success-color);
+    margin-bottom: 1rem;
+}
+
+.success-message h1 {
+    color: var(--success-color);
+    margin-bottom: 1rem;
+}
+
+.order-details,
+.next-steps {
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    text-align: left;
+}
+
+.details-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-top: 1rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.steps {
+    margin-top: 2rem;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.step-number {
+    background: var(--primary-gradient);
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.step-text h4 {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+/* Admin Styles */
+.admin-login {
+    background: var(--primary-gradient);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 400px;
+}
+
+.admin-dashboard {
+    background: var(--bg-light);
+    min-height: 100vh;
+}
+
+.admin-nav {
+    background: white;
+    box-shadow: var(--shadow);
+    padding: 1rem 0;
+}
+
+.admin-nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.admin-nav h1 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.logout-btn {
+    color: var(--error-color);
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.admin-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-icon {
+    background: var(--primary-gradient);
+    color: white;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.stat-info h3 {
+    color: var(--text-light);
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.stat-info p {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.admin-orders {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.orders-table {
+    overflow-x: auto;
+}
+
+.orders-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders-table th,
+.orders-table td {
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.orders-table th {
+    background: var(--bg-light);
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status.completed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.no-orders {
+    text-align: center;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* Sample Report Styles */
+.sample-report {
+    padding: 2rem 0;
+}
+
+.report-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.provider-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.tab-button {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--border-color);
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.report-sample {
+    display: none;
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.report-sample.active {
+    display: block;
+}
+
+.sample-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.sample-vin {
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+.report-sections {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.report-section {
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.report-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.status-good {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 0.75rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.autocheck-score {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--bg-light);
+    border-radius: 8px;
+}
+
+.score-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.score {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.score-label {
+    font-size: 0.75rem;
+    opacity: 0.9;
+}
+
+.cta-section {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--bg-light);
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+/* Footer */
+.footer {
+    background: var(--text-color);
+    color: white;
+    padding: 3rem 0 1rem;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: #d1d5db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: white;
+}
+
+.trust-badges {
+    display: flex;
+    gap: 1rem;
+}
+
+.trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.footer-bottom {
+    border-top: 1px solid #374151;
+    padding-top: 1rem;
+    text-align: center;
+    color: #9ca3af;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    
+    .nav-toggle {
+        display: block;
+    }
+    
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .checkout-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .trust-badges {
+        flex-direction: column;
+    }
+}
+
+/* Error Messages */
+.error-message {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #fecaca;
+}
+
+/* Animation Classes */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.slide-up {
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 0.6s ease forwards;
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}';
+
+createFile('assets/css/style.css', $cssContent);
+
+// Create JavaScript file
+$jsContent = '// VinReporting.com - Main JavaScript
+
+document.addEventListener("DOMContentLoaded", function() {
+    // VIN Validation
+    const vinInput = document.getElementById("vin");
+    const vinStatus = document.getElementById("vinStatus");
+    const getReportBtn = document.getElementById("getReportBtn");
+    
+    if (vinInput) {
+        vinInput.addEventListener("input", validateVIN);
+        vinInput.addEventListener("paste", function(e) {
+            setTimeout(validateVIN, 10);
+        });
+    }
+    
+    function validateVIN() {
+        const vin = vinInput.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+        vinInput.value = vin;
+        
+        if (vin.length === 0) {
+            vinStatus.textContent = "";
+            vinStatus.className = "vin-status";
+            updateSubmitButton();
+            return;
+        }
+        
+        if (vin.length < 17) {
+            vinStatus.textContent = `Enter ${17 - vin.length} more characters`;
+            vinStatus.className = "vin-status invalid";
+            updateSubmitButton();
+            return;
+        }
+        
+        if (vin.length === 17) {
+            // Check for invalid characters (I, O, Q not allowed in VIN)
+            if (/[IOQ]/.test(vin)) {
+                vinStatus.textContent = "Invalid VIN: Letters I, O, Q are not allowed";
+                vinStatus.className = "vin-status invalid";
+                updateSubmitButton();
+                return;
+            }
+            
+            vinStatus.textContent = "✓ Valid VIN format";
+            vinStatus.className = "vin-status valid";
+            updateSubmitButton();
+            return;
+        }
+        
+        if (vin.length > 17) {
+            vinStatus.textContent = "VIN must be exactly 17 characters";
+            vinStatus.className = "vin-status invalid";
+            updateSubmitButton();
+        }
+    }
+    
+    function updateSubmitButton() {
+        if (!getReportBtn) return;
+        
+        const vin = vinInput.value.replace(/[^A-Z0-9]/g, "");
+        const customerName = document.getElementById("customer_name")?.value.trim();
+        const customerEmail = document.getElementById("customer_email")?.value.trim();
+        
+        const isValidVIN = vin.length === 17 && !/[IOQ]/.test(vin);
+        const hasCustomerInfo = customerName && customerEmail;
+        
+        getReportBtn.disabled = !(isValidVIN && hasCustomerInfo);
+    }
+    
+    // Update submit button when customer info changes
+    const customerInputs = ["customer_name", "customer_email"];
+    customerInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener("input", updateSubmitButton);
+        }
+    });
+    
+    // Mobile Navigation
+    const navToggle = document.querySelector(".nav-toggle");
+    const navMenu = document.querySelector(".nav-menu");
+    
+    if (navToggle && navMenu) {
+        navToggle.addEventListener("click", function() {
+            navMenu.classList.toggle("active");
+            
+            // Toggle hamburger icon
+            const icon = navToggle.querySelector("i");
+            if (icon) {
+                icon.classList.toggle("fa-bars");
+                icon.classList.toggle("fa-times");
+            }
+        });
+    }
+    
+    // Sample Report Tabs
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const reportSamples = document.querySelectorAll(".report-sample");
+    
+    tabButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const provider = this.dataset.provider;
+            
+            // Update active tab
+            tabButtons.forEach(btn => btn.classList.remove("active"));
+            this.classList.add("active");
+            
+            // Update active report sample
+            reportSamples.forEach(sample => {
+                sample.classList.remove("active");
+                if (sample.classList.contains(provider)) {
+                    sample.classList.add("active");
+                }
+            });
+        });
+    });
+    
+    // Scroll Animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("fade-in");
+            }
+        });
+    }, observerOptions);
+    
+    // Observe elements for animation
+    document.querySelectorAll(".feature-card, .step, .report-section").forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Form Validation Enhancement
+    const forms = document.querySelectorAll("form");
+    forms.forEach(form => {
+        form.addEventListener("submit", function(e) {
+            const requiredInputs = form.querySelectorAll("[required]");
+            let isValid = true;
+            
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.borderColor = "var(--error-color)";
+                    
+                    // Remove error styling after user starts typing
+                    input.addEventListener("input", function() {
+                        this.style.borderColor = "";
+                    }, { once: true });
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert("Please fill in all required fields");
+            }
+        });
+    });
+    
+    // Smooth Scrolling for Anchor Links
+    document.querySelectorAll(\'a[href^="#"]\').forEach(anchor => {
+        anchor.addEventListener("click", function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+        });
+    });
+    
+    // Auto-format Phone Number
+    const phoneInput = document.getElementById("customer_phone");
+    if (phoneInput) {
+        phoneInput.addEventListener("input", function(e) {
+            let value = e.target.value.replace(/\D/g, "");
+            
+            if (value.length >= 6) {
+                value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
+            } else if (value.length >= 3) {
+                value = `(${value.slice(0,3)}) ${value.slice(3)}`;
+            }
+            
+            e.target.value = value;
+        });
+    }
+    
+    // Loading States
+    function showLoading(element) {
+        const originalText = element.textContent;
+        element.textContent = "Processing...";
+        element.disabled = true;
+        
+        // Store original text for restoration
+        element.dataset.originalText = originalText;
+    }
+    
+    function hideLoading(element) {
+        element.textContent = element.dataset.originalText || "Submit";
+        element.disabled = false;
+    }
+    
+    // Add loading state to forms
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", function() {
+            const submitBtn = form.querySelector(\'button[type="submit"]\');
+            if (submitBtn) {
+                showLoading(submitBtn);
+            }
+        });
+    });
+    
+    // Navbar scroll effect
+    let lastScrollTop = 0;
+    const navbar = document.querySelector(".navbar");
+    
+    window.addEventListener("scroll", function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down
+            navbar.style.transform = "translateY(-100%)";
+        } else {
+            // Scrolling up
+            navbar.style.transform = "translateY(0)";
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+    
+    // Add subtle animations on page load
+    setTimeout(() => {
+        document.querySelectorAll(".hero-text, .hero-form").forEach((el, index) => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(30px)";
+            el.style.transition = "all 0.8s ease";
+            
+            setTimeout(() => {
+                el.style.opacity = "1";
+                el.style.transform = "translateY(0)";
+            }, index * 200);
+        });
+    }, 100);
+});
+
+// Utility Functions
+function formatPrice(price) {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD"
+    }).format(price);
+}
+
+function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+}
+
+// Export for global access
+window.VinReporting = {
+    formatPrice,
+    formatDate
+};';
+
+createFile('assets/js/main.js', $jsContent);
+
+logMessage("✅ Asset files (CSS & JS) created successfully!");
 
 ?>
     
