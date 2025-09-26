@@ -2614,9 +2614,9 @@ if (sendOrderConfirmationEmail($order)) {
 exit;
 ?>\';
 
-createFile(\'admin/resend-email.php\', $resendEmailContent);
+createFile('admin/resend-email.php', $resendEmailContent);
 
-$exportOrdersContent = \'<?php
+$exportOrdersContent = '<?php
 require_once "../includes/config.php";
 
 if (!isset($_SESSION["admin_logged_in"]) || !$_SESSION["admin_logged_in"]) {
