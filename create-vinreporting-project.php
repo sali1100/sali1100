@@ -2553,7 +2553,7 @@ include "../includes/header.php";
                 <div class="related-services">
                     <h3>Related Services</h3>
                     <ul>
-\' . $relatedLinks . \'                    </ul>
+' . $relatedLinks . '                    </ul>
                 </div>
                 
                 <div class="contact-info">
