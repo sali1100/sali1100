@@ -2229,7 +2229,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Add loading state to forms
     document.querySelectorAll("form").forEach(form => {
         form.addEventListener("submit", function() {
-            const submitBtn = form.querySelector(\'button[type="submit"]\');
+            const submitBtn = form.querySelector('button[type="submit"]');
             if (submitBtn) {
                 showLoading(submitBtn);
             }
