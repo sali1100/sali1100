@@ -2292,7 +2292,656 @@ window.VinReporting = {
 
 createFile('assets/js/main.js', $jsContent);
 
-logMessage("✅ Asset files (CSS & JS) created successfully!");
+// Create remaining pages
+$pricingContent = '<?php
+require_once "includes/config.php";
+$page_title = "Pricing Plans - Vehicle History Reports";
+include "includes/header.php";
+?>
+
+<section class="pricing">
+    <div class="container">
+        <div class="pricing-header">
+            <h1>Choose Your Report Plan</h1>
+            <p>Select the perfect plan for your vehicle research needs</p>
+        </div>
+        
+        <div class="pricing-grid">
+            <?php foreach ($pricing_plans as $key => $plan): ?>
+            <div class="pricing-card <?php echo $key === "premium" ? "featured" : ""; ?>">
+                <?php if ($key === "premium"): ?>
+                    <div class="featured-badge">Most Popular</div>
+                <?php endif; ?>
+                
+                <h3><?php echo $plan["name"]; ?></h3>
+                <div class="price">
+                    <span class="currency">$</span>
+                    <span class="amount"><?php echo number_format($plan["price"], 0); ?></span>
+                    <span class="period">.<?php echo substr(number_format($plan["price"], 2), -2); ?></span>
+                </div>
+                <p class="description"><?php echo $plan["description"]; ?></p>
+                
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Complete Vehicle History</li>
+                    <li><i class="fas fa-check"></i> Accident & Damage Records</li>
+                    <li><i class="fas fa-check"></i> Title Information</li>
+                    <li><i class="fas fa-check"></i> Service Records</li>
+                    <?php if ($key !== "basic"): ?>
+                    <li><i class="fas fa-check"></i> Previous Owners Details</li>
+                    <li><i class="fas fa-check"></i> Recall Information</li>
+                    <?php endif; ?>
+                    <?php if ($key === "complete"): ?>
+                    <li><i class="fas fa-check"></i> Market Value Analysis</li>
+                    <li><i class="fas fa-check"></i> Detailed Recommendations</li>
+                    <?php endif; ?>
+                </ul>
+                
+                <a href="index.php#order-form" class="btn-primary">
+                    Get <?php echo $plan["name"]; ?>
+                </a>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<?php include "includes/footer.php"; ?>';
+
+createFile('pricing.php', $pricingContent);
+
+$faqContent = '<?php
+require_once "includes/config.php";
+$page_title = "Frequently Asked Questions";
+include "includes/header.php";
+?>
+
+<section class="faq">
+    <div class="container">
+        <div class="faq-header">
+            <h1>Frequently Asked Questions</h1>
+            <p>Get answers to common questions about our vehicle history reports</p>
+        </div>
+        
+        <div class="faq-content">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>What information is included in a vehicle history report?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Our comprehensive vehicle history reports include accident history, title information, service records, previous ownership details, recall information, and market value analysis. The exact details depend on the report plan you choose.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How quickly will I receive my report?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Most reports are delivered within 15 minutes of purchase completion. You\'ll receive your detailed report via email at the address provided during checkout.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>What\'s the difference between Carfax and AutoCheck reports?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Both providers offer comprehensive vehicle history information. Carfax is known for detailed service records, while AutoCheck provides an easy-to-understand scoring system. Both are trusted industry leaders with extensive databases.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Is my payment information secure?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, we use PayPal\'s secure payment processing system. Your financial information is encrypted and never stored on our servers. We maintain the highest security standards to protect your data.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>What if no history is found for my VIN?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Even if limited history is available, you\'ll receive a report showing what information is accessible. This is valuable information itself, as it may indicate the vehicle\'s history is clean or that it\'s a newer vehicle with limited recorded history.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Can I get a refund if I\'m not satisfied?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Due to the instant digital delivery nature of our reports, all sales are final. However, if you experience technical issues with your report delivery, please contact our support team for assistance.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Do you offer discounts for multiple reports?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Currently, each report is priced individually. However, we occasionally offer promotional pricing for multiple purchases. Contact us if you need multiple reports and we\'ll see how we can help.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-support">
+            <h2>Still have questions?</h2>
+            <p>Our support team is here to help you make informed vehicle purchasing decisions.</p>
+            <a href="mailto:support@vinreporting.com" class="btn-primary">
+                <i class="fas fa-envelope"></i>
+                Contact Support
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+document.querySelectorAll(".faq-question").forEach(question => {
+    question.addEventListener("click", function() {
+        const item = this.parentElement;
+        const answer = item.querySelector(".faq-answer");
+        const icon = this.querySelector("i");
+        
+        item.classList.toggle("active");
+        
+        if (item.classList.contains("active")) {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+            icon.classList.replace("fa-chevron-down", "fa-chevron-up");
+        } else {
+            answer.style.maxHeight = "0";
+            icon.classList.replace("fa-chevron-up", "fa-chevron-down");
+        }
+    });
+});
+</script>
+
+<?php include "includes/footer.php"; ?>';
+
+createFile('faq.php', $faqContent);
+
+// Create service pages
+$servicePages = [
+    "vehicle-history-reports" => [
+        "title" => "Complete Vehicle History Reports",
+        "description" => "Get comprehensive vehicle history information from trusted industry providers",
+        "content" => "Our vehicle history reports provide you with essential information about any used vehicle before you make a purchase decision. We compile data from multiple trusted sources to give you the most complete picture of a vehicle\'s past."
+    ],
+    "accident-history-check" => [
+        "title" => "Accident History Check",  
+        "description" => "Discover any accident or damage history for complete peace of mind",
+        "content" => "Our accident history checks reveal any reported accidents, collisions, or damage incidents. This critical information helps you avoid vehicles with hidden damage that could affect safety, performance, and resale value."
+    ],
+    "title-information" => [
+        "title" => "Title Information & Verification",
+        "description" => "Verify title status and identify potential title issues",
+        "content" => "Title problems can be costly and complicated. Our title information service checks for liens, salvage titles, flood damage, lemon designations, and other title issues that could affect your ownership rights and the vehicle\'s value."
+    ],
+    "service-records" => [
+        "title" => "Service & Maintenance Records",
+        "description" => "Review detailed service history and maintenance records",
+        "content" => "Regular maintenance is crucial for vehicle longevity. Our service records analysis shows you the vehicle\'s maintenance history, helping you understand how well the vehicle has been cared for and what future maintenance may be needed."
+    ],
+    "market-value-analysis" => [
+        "title" => "Market Value Analysis",
+        "description" => "Get accurate market pricing and value estimates",
+        "content" => "Make informed pricing decisions with our market value analysis. We provide current market values, regional pricing trends, and depreciation information to help you negotiate the best deal or set the right selling price."
+    ],
+    "recall-information" => [
+        "title" => "Recall Information & Safety Alerts",
+        "description" => "Stay informed about safety recalls and manufacturer notices",
+        "content" => "Safety recalls can affect vehicle performance and safety. Our recall information service identifies any open recalls, safety campaigns, or technical service bulletins that may apply to your vehicle, helping you stay safe and maintain your warranty."
+    ]
+];
+
+foreach ($servicePages as $filename => $page) {
+    $serviceContent = \'<?php
+require_once "../includes/config.php";
+$page_title = "\' . $page["title"] . \'";
+include "../includes/header.php";
+?>
+
+<section class="service-page">
+    <div class="container">
+        <div class="service-header">
+            <h1>\' . $page["title"] . \'</h1>
+            <p class="lead">\' . $page["description"] . \'</p>
+        </div>
+        
+        <div class="service-content">
+            <div class="main-content">
+                <h2>Why Choose Our \' . $page["title"] . \'?</h2>
+                <p>\' . $page["content"] . \'</p>
+                
+                <div class="benefits">
+                    <h3>Key Benefits:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Comprehensive data from trusted sources</li>
+                        <li><i class="fas fa-check-circle"></i> Instant digital delivery</li>
+                        <li><i class="fas fa-check-circle"></i> Easy-to-understand reports</li>
+                        <li><i class="fas fa-check-circle"></i> Professional analysis and insights</li>
+                    </ul>
+                </div>
+                
+                <div class="cta-section">
+                    <h3>Get Your Report Today</h3>
+                    <p>Don\'t take risks when buying or selling a vehicle. Get the information you need to make confident decisions.</p>
+                    <a href="../index.php" class="btn-primary">
+                        <i class="fas fa-search"></i>
+                        Get Vehicle Report
+                    </a>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="related-services">
+                    <h3>Related Services</h3>
+                    <ul>\';
+                    
+    foreach ($servicePages as $slug => $relatedPage) {
+        if ($slug !== $filename) {
+            $serviceContent .= \'
+                        <li><a href="\' . $slug . \'.php">\' . $relatedPage["title"] . \'</a></li>\';
+        }
+    }
+    
+    $serviceContent .= \'
+                    </ul>
+                </div>
+                
+                <div class="contact-info">
+                    <h3>Need Help?</h3>
+                    <p>Our experts are here to help you understand your vehicle report.</p>
+                    <a href="mailto:support@vinreporting.com" class="btn-secondary">
+                        <i class="fas fa-envelope"></i>
+                        Contact Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<?php include "../includes/footer.php"; ?>\';
+    
+    createFile(\'services/\' . $filename . \'.php\', $serviceContent);
+}
+
+// Add remaining admin files
+$resendEmailContent = \'<?php
+require_once "../includes/config.php";
+require_once "../lib/email.php";
+
+if (!isset($_SESSION["admin_logged_in"]) || !$_SESSION["admin_logged_in"]) {
+    header("Location: login.php");
+    exit;
+}
+
+if (!isset($_GET["order"])) {
+    header("Location: index.php");
+    exit;
+}
+
+$order_id = sanitize_input($_GET["order"]);
+$orders = get_orders();
+$order = null;
+
+foreach ($orders as $o) {
+    if ($o["order_id"] == $order_id) {
+        $order = $o;
+        break;
+    }
+}
+
+if (!$order) {
+    header("Location: index.php?error=order_not_found");
+    exit;
+}
+
+// Resend email
+if (sendOrderConfirmationEmail($order)) {
+    header("Location: index.php?success=email_resent");
+} else {
+    header("Location: index.php?error=email_failed");
+}
+exit;
+?>\';
+
+createFile(\'admin/resend-email.php\', $resendEmailContent);
+
+$exportOrdersContent = \'<?php
+require_once "../includes/config.php";
+
+if (!isset($_SESSION["admin_logged_in"]) || !$_SESSION["admin_logged_in"]) {
+    header("Location: login.php");
+    exit;
+}
+
+$orders = get_orders();
+
+// Set headers for CSV download
+header("Content-Type: text/csv");
+header("Content-Disposition: attachment; filename=vinreporting_orders_" . date("Y-m-d") . ".csv");
+
+$output = fopen("php://output", "w");
+
+// Add CSV headers
+fputcsv($output, [
+    "Order ID",
+    "Date",
+    "Customer Name", 
+    "Customer Email",
+    "Customer Phone",
+    "VIN",
+    "Provider",
+    "Plan",
+    "Amount",
+    "PayPal Order ID",
+    "Status"
+]);
+
+// Add order data
+foreach ($orders as $order) {
+    fputcsv($output, [
+        $order["order_id"],
+        $order["created_at"],
+        $order["customer_name"],
+        $order["customer_email"],
+        $order["customer_phone"] ?? "",
+        $order["vin"],
+        $order["provider"],
+        $order["plan_name"],
+        $order["amount"],
+        $order["paypal_order_id"],
+        $order["status"]
+    ]);
+}
+
+fclose($output);
+exit;
+?>\';
+
+createFile(\'admin/export-orders.php\', $exportOrdersContent);
+
+logMessage("✅ Service pages and additional admin files created!");
+logMessage("✅ All project files have been generated successfully!");
+
+// Add CSS for the new pages
+$additionalCss = \'
+/* Additional styles for service pages, pricing, FAQ */
+
+.pricing {
+    padding: 3rem 0;
+}
+
+.pricing-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.pricing-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+}
+
+.pricing-card.featured {
+    border: 2px solid var(--primary-color);
+    transform: scale(1.05);
+}
+
+.featured-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.pricing-card h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.price {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.currency {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    vertical-align: top;
+}
+
+.amount {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.period {
+    font-size: 1.5rem;
+    color: var(--text-light);
+}
+
+.description {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.features {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.features li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.features i {
+    color: var(--success-color);
+}
+
+/* FAQ Styles */
+.faq {
+    padding: 3rem 0;
+}
+
+.faq-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.faq-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+    background: var(--bg-light);
+}
+
+.faq-question h3 {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.faq-question i {
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faq-answer p {
+    padding: 0 1.5rem 1.5rem;
+    margin: 0;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.contact-support {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2rem;
+    background: var(--bg-light);
+    border-radius: 12px;
+}
+
+/* Service Page Styles */
+.service-page {
+    padding: 3rem 0;
+}
+
+.service-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.lead {
+    font-size: 1.25rem;
+    color: var(--text-light);
+}
+
+.service-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+}
+
+.main-content {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.benefits {
+    margin: 2rem 0;
+}
+
+.benefits ul {
+    list-style: none;
+}
+
+.benefits li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.benefits i {
+    color: var(--success-color);
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.related-services,
+.contact-info {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.related-services ul {
+    list-style: none;
+}
+
+.related-services li {
+    margin-bottom: 0.5rem;
+}
+
+.related-services a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.related-services a:hover {
+    color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .service-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .pricing-card.featured {
+        transform: none;
+    }
+}\';
+
+// Append additional CSS to the main CSS file
+$existingCss = file_get_contents("assets/css/style.css");
+file_put_contents("assets/css/style.css", $existingCss . "\n\n" . $additionalCss);
+
+logMessage("✅ Additional CSS styles added!");
 
 ?>
     
