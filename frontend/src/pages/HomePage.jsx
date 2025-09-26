@@ -190,8 +190,8 @@ const HomePage = () => {
                         onClick={() => setFormData(prev => ({...prev, plan_type: key}))}
                         className={`w-full p-3 rounded-lg border transition-all flex justify-between items-center ${
                           formData.plan_type === key
-                            ? 'bg-red-500/20 border-red-500 text-red-400'
-                            : 'bg-white/5 border-white/10 text-gray-400 hover:border-red-500/50'
+                            ? 'bg-blue-500/20 border-blue-500 text-blue-400'
+                            : 'bg-white/5 border-white/10 text-gray-400 hover:border-blue-500/50'
                         }`}
                       >
                         <span>{plan.name}</span>
