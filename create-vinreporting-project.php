@@ -1103,7 +1103,7 @@ function generateEmailTemplate($order) {
         </div>
     </div>
 </body>
-</html>\';
+</html>';
 }
 ?>';
 
