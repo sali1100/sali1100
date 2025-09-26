@@ -2507,7 +2507,7 @@ foreach ($servicePages as $filename => $page) {
     $relatedLinks = '';
     foreach ($servicePages as $slug => $relatedPage) {
         if ($slug !== $filename) {
-            $relatedLinks .= \'                        <li><a href="\' . $slug . \'.php">\' . $relatedPage["title"] . \'</a></li>\' . "\n";
+            $relatedLinks .= '                        <li><a href="' . $slug . '.php">' . $relatedPage["title"] . '</a></li>' . "\n";
         }
     }
     
