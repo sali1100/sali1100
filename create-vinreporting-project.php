@@ -2933,7 +2933,7 @@ $additionalCss = '
     .pricing-card.featured {
         transform: none;
     }
-}\';
+}';
 
 // Append additional CSS to the main CSS file
 $existingCss = file_get_contents("assets/css/style.css");
