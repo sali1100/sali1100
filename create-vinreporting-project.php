@@ -1069,7 +1069,7 @@ function generateEmailTemplate($order) {
                 </div>
                 <div class="detail-row">
                     <span><strong>Report Type:</strong></span>
-                    <span>\' . $order["plan_name"] . \'</span>
+                    <span>' . $order["plan_name"] . '</span>
                 </div>
                 <div class="detail-row">
                     <span><strong>Provider:</strong></span>
