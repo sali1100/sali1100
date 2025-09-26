@@ -2569,9 +2569,9 @@ include "../includes/header.php";
     </div>
 </section>
 
-<?php include "../includes/footer.php"; ?>\';
+<?php include "../includes/footer.php"; ?>';
     
-    createFile(\'services/\' . $filename . \'.php\', $serviceContent);
+    createFile('services/' . $filename . '.php', $serviceContent);
 }
 
 // Add remaining admin files
