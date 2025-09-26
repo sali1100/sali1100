@@ -2666,7 +2666,7 @@ foreach ($orders as $order) {
 
 fclose($output);
 exit;
-?>\';
+?>';
 
 createFile('admin/export-orders.php', $exportOrdersContent);
 
