@@ -170,8 +170,8 @@ const HomePage = () => {
                       onClick={() => setFormData(prev => ({...prev, report_provider: 'autocheck'}))}
                       className={`p-3 rounded-lg border transition-all ${
                         formData.report_provider === 'autocheck'
-                          ? 'bg-red-500/20 border-red-500 text-red-400'
-                          : 'bg-white/5 border-white/10 text-gray-400 hover:border-red-500/50'
+                          ? 'bg-blue-500/20 border-blue-500 text-blue-400'
+                          : 'bg-white/5 border-white/10 text-gray-400 hover:border-blue-500/50'
                       }`}
                     >
                       AutoCheck
