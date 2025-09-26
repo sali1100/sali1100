@@ -526,6 +526,597 @@ paypal.Buttons({
 
 createFile('checkout.php', $checkoutContent);
 
+// Thank You page
+$thankYouContent = '<?php
+require_once "includes/config.php";
+
+if (!isset($_GET["order"])) {
+    header("Location: index.php");
+    exit;
+}
+
+$order_id = sanitize_input($_GET["order"]);
+$orders = get_orders();
+$order = null;
+
+foreach ($orders as $o) {
+    if ($o["order_id"] == $order_id) {
+        $order = $o;
+        break;
+    }
+}
+
+if (!$order) {
+    header("Location: index.php");
+    exit;
+}
+
+$page_title = "Thank You - Order Confirmation";
+include "includes/header.php";
+?>
+
+<section class="thank-you">
+    <div class="container">
+        <div class="success-message">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h1>Payment Successful!</h1>
+            <p>Your vehicle history report order has been confirmed.</p>
+        </div>
+        
+        <div class="order-details">
+            <h2>Order Details</h2>
+            <div class="details-card">
+                <div class="detail-item">
+                    <span>Order ID:</span>
+                    <span><?php echo $order["order_id"]; ?></span>
+                </div>
+                <div class="detail-item">
+                    <span>VIN:</span>
+                    <span><?php echo $order["vin"]; ?></span>
+                </div>
+                <div class="detail-item">
+                    <span>Report Type:</span>
+                    <span><?php echo $order["plan_name"]; ?></span>
+                </div>
+                <div class="detail-item">
+                    <span>Provider:</span>
+                    <span><?php echo $order["provider"]; ?></span>
+                </div>
+                <div class="detail-item">
+                    <span>Amount Paid:</span>
+                    <span><?php echo format_price($order["amount"]); ?></span>
+                </div>
+                <div class="detail-item">
+                    <span>Email:</span>
+                    <span><?php echo $order["customer_email"]; ?></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="next-steps">
+            <h3>What Happens Next?</h3>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        <h4>Report Generation</h4>
+                        <p>Our system is preparing your detailed vehicle history report</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">
+                        <h4>Email Delivery</h4>
+                        <p>Your report will be delivered to <?php echo $order["customer_email"]; ?> within 15 minutes</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">
+                        <h4>Review Your Report</h4>
+                        <p>Use the comprehensive information to make an informed decision</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<?php include "includes/footer.php"; ?>';
+
+createFile('thank-you.php', $thankYouContent);
+
+// Process Payment PHP
+$processPaymentContent = '<?php
+require_once "includes/config.php";
+require_once "lib/email.php";
+
+header("Content-Type: application/json");
+
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    http_response_code(405);
+    echo json_encode(["success" => false, "message" => "Method not allowed"]);
+    exit;
+}
+
+$input = json_decode(file_get_contents("php://input"), true);
+
+if (!isset($_SESSION["order_data"]) || !$input["orderID"]) {
+    echo json_encode(["success" => false, "message" => "Invalid order data"]);
+    exit;
+}
+
+try {
+    $order_data = $_SESSION["order_data"];
+    $plan_info = $pricing_plans[$order_data["plan"]];
+    
+    // Generate order ID
+    $order_id = generate_order_id();
+    
+    // Create order record
+    $order_record = [
+        "order_id" => $order_id,
+        "vin" => $order_data["vin"],
+        "provider" => $order_data["provider"],
+        "plan" => $order_data["plan"],
+        "plan_name" => $plan_info["name"],
+        "amount" => $plan_info["price"],
+        "customer_name" => $order_data["customer_name"],
+        "customer_email" => $order_data["customer_email"],
+        "customer_phone" => $order_data["customer_phone"],
+        "paypal_order_id" => $input["orderID"],
+        "paypal_payment_id" => $input["paymentID"],
+        "paypal_payer_id" => $input["payerID"],
+        "status" => "completed",
+        "created_at" => date("Y-m-d H:i:s")
+    ];
+    
+    // Save order
+    if (save_order($order_record)) {
+        // Send confirmation email
+        sendOrderConfirmationEmail($order_record);
+        
+        // Clear session
+        unset($_SESSION["order_data"]);
+        
+        echo json_encode([
+            "success" => true,
+            "order_id" => $order_id,
+            "message" => "Order processed successfully"
+        ]);
+    } else {
+        throw new Exception("Failed to save order");
+    }
+    
+} catch (Exception $e) {
+    error_log("Payment processing error: " . $e->getMessage());
+    echo json_encode([
+        "success" => false,
+        "message" => "Payment processing failed"
+    ]);
+}
+?>';
+
+createFile('process-payment.php', $processPaymentContent);
+
+// Sample Report page
+$sampleReportContent = '<?php
+require_once "includes/config.php";
+$page_title = "Sample Vehicle History Report";
+include "includes/header.php";
+?>
+
+<section class="sample-report">
+    <div class="container">
+        <div class="report-header">
+            <h1>Sample Vehicle History Report</h1>
+            <p>See what you\'ll get in your comprehensive vehicle history report</p>
+        </div>
+        
+        <div class="provider-tabs">
+            <button class="tab-button active" data-provider="carfax">Carfax Sample</button>
+            <button class="tab-button" data-provider="autocheck">AutoCheck Sample</button>
+        </div>
+        
+        <div class="report-sample carfax active">
+            <div class="sample-header">
+                <h2>Carfax Vehicle History Report</h2>
+                <div class="sample-vin">Sample VIN: 1HGBH41JXMN109186</div>
+            </div>
+            
+            <div class="report-sections">
+                <div class="report-section">
+                    <h3><i class="fas fa-car"></i> Vehicle Information</h3>
+                    <ul>
+                        <li>Year, Make, Model: 2012 Honda Civic Sedan</li>
+                        <li>Engine: 1.8L 4 Cylinder</li>
+                        <li>Transmission: Automatic</li>
+                        <li>Drive Type: Front Wheel Drive</li>
+                    </ul>
+                </div>
+                
+                <div class="report-section">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Accident History</h3>
+                    <div class="status-good">
+                        <i class="fas fa-check"></i>
+                        No accidents or damage reported to Carfax
+                    </div>
+                </div>
+                
+                <div class="report-section">
+                    <h3><i class="fas fa-file-alt"></i> Title Information</h3>
+                    <ul>
+                        <li>Title Issue: None reported</li>
+                        <li>Previous Use: Personal vehicle</li>
+                        <li>Last Reported Odometer: 89,432 miles</li>
+                    </ul>
+                </div>
+                
+                <div class="report-section">
+                    <h3><i class="fas fa-wrench"></i> Service Records</h3>
+                    <ul>
+                        <li>12 Service records found</li>
+                        <li>Regular maintenance performed</li>
+                        <li>Last service: Oil change at 87,200 miles</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="report-sample autocheck">
+            <div class="sample-header">
+                <h2>AutoCheck Vehicle History Report</h2>
+                <div class="sample-vin">Sample VIN: 1HGBH41JXMN109186</div>
+            </div>
+            
+            <div class="autocheck-score">
+                <div class="score-circle">
+                    <span class="score">85</span>
+                    <span class="score-label">AutoCheck Score</span>
+                </div>
+                <div class="score-description">
+                    <h3>Above Average</h3>
+                    <p>This vehicle has a higher AutoCheck Score than similar vehicles</p>
+                </div>
+            </div>
+            
+            <div class="report-sections">
+                <div class="report-section">
+                    <h3><i class="fas fa-shield-alt"></i> Vehicle History Summary</h3>
+                    <ul>
+                        <li>No accidents reported</li>
+                        <li>No title issues reported</li>
+                        <li>No lemon history reported</li>
+                        <li>Regular maintenance performed</li>
+                    </ul>
+                </div>
+                
+                <div class="report-section">
+                    <h3><i class="fas fa-users"></i> Ownership History</h3>
+                    <ul>
+                        <li>2 Previous owners</li>
+                        <li>Personal use vehicle</li>
+                        <li>Owned in: California, Nevada</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get Your Vehicle History Report</h2>
+            <p>Don\'t buy a used car without knowing its history</p>
+            <a href="index.php" class="btn-primary">
+                <i class="fas fa-search"></i>
+                Get Your Report Now
+            </a>
+        </div>
+    </div>
+</section>
+
+<?php include "includes/footer.php"; ?>';
+
+createFile('sample-report.php', $sampleReportContent);
+
+logMessage("✅ Main pages created successfully!");
+
+// Create admin directory files
+logMessage("⏳ Creating admin panel files...");
+
+$adminLoginContent = '<?php
+require_once "../includes/config.php";
+
+$error = "";
+
+if ($_POST) {
+    $password = $_POST["password"];
+    
+    if (password_verify($password, ADMIN_PASSWORD_HASH)) {
+        $_SESSION["admin_logged_in"] = true;
+        header("Location: index.php");
+        exit;
+    } else {
+        $error = "Invalid password";
+    }
+}
+
+$page_title = "Admin Login";
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $page_title; ?></title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="admin-login">
+    <div class="login-container">
+        <div class="login-form">
+            <h1>Admin Login</h1>
+            <?php if ($error): ?>
+                <div class="error-message"><?php echo $error; ?></div>
+            <?php endif; ?>
+            
+            <form method="POST">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>';
+
+createFile('admin/login.php', $adminLoginContent);
+
+$adminIndexContent = '<?php
+require_once "../includes/config.php";
+
+if (!isset($_SESSION["admin_logged_in"]) || !$_SESSION["admin_logged_in"]) {
+    header("Location: login.php");
+    exit;
+}
+
+$orders = get_orders();
+$total_orders = count($orders);
+$total_revenue = array_sum(array_column($orders, "amount"));
+
+$page_title = "Admin Dashboard";
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $page_title; ?></title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="admin-dashboard">
+    <nav class="admin-nav">
+        <div class="admin-nav-content">
+            <h1>VinReporting Admin</h1>
+            <a href="logout.php" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </div>
+    </nav>
+    
+    <main class="admin-main">
+        <div class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Orders</h3>
+                    <p><?php echo $total_orders; ?></p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Revenue</h3>
+                    <p><?php echo format_price($total_revenue); ?></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin-orders">
+            <div class="orders-header">
+                <h2>Recent Orders</h2>
+                <div class="orders-actions">
+                    <a href="export-orders.php" class="btn-secondary">
+                        <i class="fas fa-download"></i>
+                        Export CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="orders-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>VIN</th>
+                            <th>Plan</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($orders)): ?>
+                        <tr>
+                            <td colspan="8" class="no-orders">No orders found</td>
+                        </tr>
+                        <?php else: ?>
+                        <?php foreach (array_reverse($orders) as $order): ?>
+                        <tr>
+                            <td><?php echo $order["order_id"]; ?></td>
+                            <td><?php echo date("M j, Y", strtotime($order["created_at"])); ?></td>
+                            <td><?php echo $order["customer_name"]; ?></td>
+                            <td><?php echo substr($order["vin"], 0, 8) . "•••••••••"; ?></td>
+                            <td><?php echo $order["plan_name"]; ?></td>
+                            <td><?php echo format_price($order["amount"]); ?></td>
+                            <td>
+                                <span class="status <?php echo $order["status"]; ?>">
+                                    <?php echo ucfirst($order["status"]); ?>
+                                </span>
+                            </td>
+                            <td>
+                                <button onclick="viewOrder(\'<?php echo $order["order_id"]; ?>\')" class="btn-small">View</button>
+                                <a href="resend-email.php?order=<?php echo $order["order_id"]; ?>" class="btn-small">Resend</a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        function viewOrder(orderId) {
+            alert("View order details for: " + orderId + "\n\nThis feature will show detailed order information in a modal or separate page.");
+        }
+    </script>
+</body>
+</html>';
+
+createFile('admin/index.php', $adminIndexContent);
+
+$adminLogoutContent = '<?php
+session_start();
+session_destroy();
+header("Location: login.php");
+exit;
+?>';
+
+createFile('admin/logout.php', $adminLogoutContent);
+
+logMessage("✅ Admin panel files created!");
+
+// Create library files  
+$emailContent = '<?php
+function sendOrderConfirmationEmail($order) {
+    $to = $order["customer_email"];
+    $subject = "Your VinReporting.com Order Confirmation - " . $order["order_id"];
+    
+    $message = generateEmailTemplate($order);
+    
+    $headers = [
+        "MIME-Version: 1.0",
+        "Content-type: text/html; charset=UTF-8",
+        "From: VinReporting.com <noreply@vinreporting.com>",
+        "Cc: " . ADMIN_EMAIL,
+        "Reply-To: support@vinreporting.com"
+    ];
+    
+    return mail($to, $subject, $message, implode("\r\n", $headers));
+}
+
+function generateEmailTemplate($order) {
+    return \'
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; }
+        .content { padding: 30px; background: #f9f9f9; }
+        .order-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 14px; }
+        .btn { display: inline-block; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Thank You for Your Order!</h1>
+            <p>Your vehicle history report is being prepared</p>
+        </div>
+        
+        <div class="content">
+            <h2>Order Confirmation</h2>
+            <p>Dear \' . $order["customer_name"] . \',</p>
+            <p>Thank you for choosing VinReporting.com. Your order has been successfully processed and your vehicle history report will be delivered shortly.</p>
+            
+            <div class="order-details">
+                <h3>Order Details</h3>
+                <div class="detail-row">
+                    <span><strong>Order ID:</strong></span>
+                    <span>\' . $order["order_id"] . \'</span>
+                </div>
+                <div class="detail-row">
+                    <span><strong>VIN:</strong></span>
+                    <span>\' . $order["vin"] . \'</span>
+                </div>
+                <div class="detail-row">
+                    <span><strong>Report Type:</strong></span>
+                    <span>\' . $order["plan_name"] . \'</span>
+                </div>
+                <div class="detail-row">
+                    <span><strong>Provider:</strong></span>
+                    <span>\' . ucfirst($order["provider"]) . \'</span>
+                </div>
+                <div class="detail-row">
+                    <span><strong>Amount:</strong></span>
+                    <span>\' . format_price($order["amount"]) . \'</span>
+                </div>
+                <div class="detail-row">
+                    <span><strong>Date:</strong></span>
+                    <span>\' . date("F j, Y g:i A", strtotime($order["created_at"])) . \'</span>
+                </div>
+            </div>
+            
+            <h3>What\'s Next?</h3>
+            <p>Your detailed vehicle history report is being generated and will be delivered to this email address within 15 minutes. The report will include:</p>
+            <ul>
+                <li>Complete title history</li>
+                <li>Accident and damage records</li>
+                <li>Service and maintenance records</li>
+                <li>Previous ownership information</li>
+                <li>Recall information</li>
+                <li>Market value analysis</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>If you have any questions, please contact us at support@vinreporting.com</p>
+            <p>&copy; \' . date("Y") . \' VinReporting.com. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>\';
+}
+?>';
+
+createFile('lib/email.php', $emailContent);
+
+// Create data files
+$ordersJson = '[]';
+createFile('data/orders.json', $ordersJson);
+
+$htaccessContent = 'Order Deny,Allow
+Deny from all';
+createFile('data/.htaccess', $htaccessContent);
+
 logMessage("✅ Core files created successfully!");
 logMessage("📝 Please check the generated files and configure:");
 logMessage("1. Update PayPal credentials in includes/config.php");
