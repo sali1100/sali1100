@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
@@ -7,13 +7,18 @@ import { CheckCircle, Shield, Clock, Star, ArrowRight, Car, Search, FileText } f
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Check for preselected plan from pricing page
+  const preselectedPlan = location.state?.preselectedPlan || 'premium';
+  
   const [formData, setFormData] = useState({
     vin: '',
     customer_name: '',
     customer_email: '',
     customer_phone: '',
     report_provider: 'carfax',
-    plan_type: 'premium'
+    plan_type: preselectedPlan
   });
 
   const [isFormValid, setIsFormValid] = useState(false);
