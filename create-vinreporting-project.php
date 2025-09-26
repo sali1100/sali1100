@@ -2575,7 +2575,7 @@ include "../includes/header.php";
 }
 
 // Add remaining admin files
-$resendEmailContent = \'<?php
+$resendEmailContent = '<?php
 require_once "../includes/config.php";
 require_once "../lib/email.php";
 
