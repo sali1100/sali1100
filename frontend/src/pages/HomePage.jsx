@@ -235,7 +235,7 @@ const HomePage = () => {
                   disabled={!isFormValid}
                   className={`w-full py-4 text-lg font-semibold rounded-lg transition-all ${
                     isFormValid
-                      ? 'bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white shadow-lg hover:shadow-red-500/25'
+                      ? 'bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white shadow-lg hover:shadow-blue-500/25'
                       : 'bg-gray-600 text-gray-400 cursor-not-allowed'
                   }`}
                   data-testid="get-report-btn"
