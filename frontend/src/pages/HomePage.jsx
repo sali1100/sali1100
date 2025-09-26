@@ -66,9 +66,9 @@ const HomePage = () => {
   };
 
   const pricingPlans = {
-    basic: { price: 29.99, name: 'Basic Report' },
-    premium: { price: 39.99, name: 'Premium Report' },
-    ultimate: { price: 49.99, name: 'Ultimate Report' }
+    basic: { price: 34.99, name: 'Basic Report' },
+    premium: { price: 44.99, name: 'Premium Report' },
+    ultimate: { price: 64.99, name: 'Ultimate Report' }
   };
 
   return (
