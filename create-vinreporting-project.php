@@ -2504,6 +2504,13 @@ $servicePages = [
 ];
 
 foreach ($servicePages as $filename => $page) {
+    $relatedLinks = '';
+    foreach ($servicePages as $slug => $relatedPage) {
+        if ($slug !== $filename) {
+            $relatedLinks .= \'                        <li><a href="\' . $slug . \'.php">\' . $relatedPage["title"] . \'</a></li>\' . "\n";
+        }
+    }
+    
     $serviceContent = \'<?php
 require_once "../includes/config.php";
 $page_title = "\' . $page["title"] . \'";
@@ -2545,17 +2552,8 @@ include "../includes/header.php";
             <div class="sidebar">
                 <div class="related-services">
                     <h3>Related Services</h3>
-                    <ul>\';
-                    
-    foreach ($servicePages as $slug => $relatedPage) {
-        if ($slug !== $filename) {
-            $serviceContent .= \'
-                        <li><a href="\' . $slug . \'.php">\' . $relatedPage["title"] . \'</a></li>\';
-        }
-    }
-    
-    $serviceContent .= \'
-                    </ul>
+                    <ul>
+\' . $relatedLinks . \'                    </ul>
                 </div>
                 
                 <div class="contact-info">
