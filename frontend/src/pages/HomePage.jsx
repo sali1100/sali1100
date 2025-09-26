@@ -89,7 +89,7 @@ const HomePage = () => {
           {/* Left Column - Content */}
           <div className="space-y-8 fade-in-up">
             <div className="space-y-4">
-              <Badge className="bg-gradient-to-r from-red-500/20 to-pink-500/20 text-red-400 border-red-500/30">
+              <Badge className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-400 border-blue-500/30">
                 🚗 Premium Vehicle History Reports
               </Badge>
               <h1 className="text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
