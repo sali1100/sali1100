@@ -94,7 +94,7 @@ const HomePage = () => {
               </Badge>
               <h1 className="text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
                 Know Your Car's
-                <span className="block bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
                   True Story
                 </span>
               </h1>
