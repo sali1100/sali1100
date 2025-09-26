@@ -2612,7 +2612,7 @@ if (sendOrderConfirmationEmail($order)) {
     header("Location: index.php?error=email_failed");
 }
 exit;
-?>\';
+?>';
 
 createFile('admin/resend-email.php', $resendEmailContent);
 
