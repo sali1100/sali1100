@@ -1099,7 +1099,7 @@ function generateEmailTemplate($order) {
         
         <div class="footer">
             <p>If you have any questions, please contact us at support@vinreporting.com</p>
-            <p>&copy; \' . date("Y") . \' VinReporting.com. All rights reserved.</p>
+            <p>&copy; ' . date("Y") . ' VinReporting.com. All rights reserved.</p>
         </div>
     </div>
 </body>
