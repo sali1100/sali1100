@@ -1029,7 +1029,7 @@ function sendOrderConfirmationEmail($order) {
 }
 
 function generateEmailTemplate($order) {
-    return \'
+    return '
 <!DOCTYPE html>
 <html>
 <head>
