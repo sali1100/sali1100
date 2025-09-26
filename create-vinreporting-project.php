@@ -2526,8 +2526,8 @@ include "../includes/header.php";
         
         <div class="service-content">
             <div class="main-content">
-                <h2>Why Choose Our \' . $page["title"] . \'?</h2>
-                <p>\' . $page["content"] . \'</p>
+                <h2>Why Choose Our ' . $page["title"] . '?</h2>
+                <p>' . $page["content"] . '</p>
                 
                 <div class="benefits">
                     <h3>Key Benefits:</h3>
