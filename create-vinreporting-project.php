@@ -1081,7 +1081,7 @@ function generateEmailTemplate($order) {
                 </div>
                 <div class="detail-row">
                     <span><strong>Date:</strong></span>
-                    <span>\' . date("F j, Y g:i A", strtotime($order["created_at"])) . \'</span>
+                    <span>' . date("F j, Y g:i A", strtotime($order["created_at"])) . '</span>
                 </div>
             </div>
             
