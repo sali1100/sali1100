@@ -1077,7 +1077,7 @@ function generateEmailTemplate($order) {
                 </div>
                 <div class="detail-row">
                     <span><strong>Amount:</strong></span>
-                    <span>\' . format_price($order["amount"]) . \'</span>
+                    <span>' . format_price($order["amount"]) . '</span>
                 </div>
                 <div class="detail-row">
                     <span><strong>Date:</strong></span>
