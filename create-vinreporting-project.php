@@ -2674,7 +2674,7 @@ logMessage("✅ Service pages and additional admin files created!");
 logMessage("✅ All project files have been generated successfully!");
 
 // Add CSS for the new pages
-$additionalCss = \'
+$additionalCss = '
 /* Additional styles for service pages, pricing, FAQ */
 
 .pricing {
