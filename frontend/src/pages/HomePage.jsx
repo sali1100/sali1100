@@ -225,7 +225,7 @@ const HomePage = () => {
                     value={formData.customer_phone}
                     onChange={(e) => setFormData(prev => ({...prev, customer_phone: e.target.value}))}
                     placeholder="Phone Number"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                   />
                 </div>
 
