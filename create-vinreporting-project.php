@@ -1054,7 +1054,7 @@ function generateEmailTemplate($order) {
         
         <div class="content">
             <h2>Order Confirmation</h2>
-            <p>Dear \' . $order["customer_name"] . \',</p>
+            <p>Dear ' . $order["customer_name"] . ',</p>
             <p>Thank you for choosing VinReporting.com. Your order has been successfully processed and your vehicle history report will be delivered shortly.</p>
             
             <div class="order-details">
