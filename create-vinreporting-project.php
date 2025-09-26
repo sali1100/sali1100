@@ -2520,8 +2520,8 @@ include "../includes/header.php";
 <section class="service-page">
     <div class="container">
         <div class="service-header">
-            <h1>\' . $page["title"] . \'</h1>
-            <p class="lead">\' . $page["description"] . \'</p>
+            <h1>' . $page["title"] . '</h1>
+            <p class="lead">' . $page["description"] . '</p>
         </div>
         
         <div class="service-content">
