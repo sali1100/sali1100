@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Menu, X, Car, FileText, Phone, User } from 'lucide-react';
+import { Menu, X, Car, FileText, Phone, User, DollarSign, HelpCircle } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,7 +10,8 @@ const Header = () => {
   const navigation = [
     { name: 'Home', href: '/', icon: <Car className="w-4 h-4" /> },
     { name: 'Sample Report', href: '/sample-report', icon: <FileText className="w-4 h-4" /> },
-    { name: 'Contact', href: '/contact', icon: <Phone className="w-4 h-4" /> },
+    { name: 'Pricing', href: '/pricing', icon: <DollarSign className="w-4 h-4" /> },
+    { name: 'FAQ', href: '/faq', icon: <HelpCircle className="w-4 h-4" /> },
     { name: 'Admin', href: '/admin', icon: <User className="w-4 h-4" /> }
   ];
 
@@ -20,7 +21,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
               <Car className="w-6 h-6 text-white" />
             </div>
             <div className="hidden sm:block">
@@ -37,7 +38,7 @@ const Header = () => {
                 to={item.href}
                 className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
                   location.pathname === item.href
-                    ? 'bg-red-500/20 text-red-400'
+                    ? 'bg-blue-500/20 text-blue-400'
                     : 'text-gray-300 hover:text-white hover:bg-white/5'
                 }`}
               >
@@ -51,7 +52,7 @@ const Header = () => {
           <div className="hidden md:block">
             <Button 
               asChild
-              className="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white border-0"
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white border-0"
             >
               <Link to="/">Get Report Now</Link>
             </Button>
@@ -76,7 +77,7 @@ const Header = () => {
                   to={item.href}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
                     location.pathname === item.href
-                      ? 'bg-red-500/20 text-red-400'
+                      ? 'bg-blue-500/20 text-blue-400'
                       : 'text-gray-300 hover:text-white hover:bg-white/5'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
@@ -88,7 +89,7 @@ const Header = () => {
               <div className="pt-2 border-t border-white/10">
                 <Button 
                   asChild
-                  className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white border-0"
+                  className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white border-0"
                 >
                   <Link to="/" onClick={() => setIsMenuOpen(false)}>
                     Get Report Now

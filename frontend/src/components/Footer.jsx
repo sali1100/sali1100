@@ -10,7 +10,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
                 <Car className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -29,7 +29,7 @@ const Footer = () => {
                 { icon: <Clock className="w-5 h-5" />, text: 'Instant' }
               ].map((badge, index) => (
                 <div key={index} className="flex items-center space-x-1 glass px-2 py-1 rounded-full">
-                  <div className="text-red-400">{badge.icon}</div>
+                  <div className="text-blue-400">{badge.icon}</div>
                   <span className="text-xs text-gray-300">{badge.text}</span>
                 </div>
               ))}
@@ -43,14 +43,14 @@ const Footer = () => {
               {[
                 { name: 'Home', href: '/' },
                 { name: 'Sample Report', href: '/sample-report' },
-                { name: 'Pricing', href: '/#pricing' },
-                { name: 'FAQ', href: '/#faq' },
-                { name: 'Contact', href: '/contact' }
+                { name: 'Pricing', href: '/pricing' },
+                { name: 'FAQ', href: '/faq' },
+                { name: 'Admin Login', href: '/admin/login' }
               ].map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className="block text-gray-400 hover:text-red-400 transition-colors text-sm"
+                  className="block text-gray-400 hover:text-blue-400 transition-colors text-sm"
                 >
                   {link.name}
                 </Link>
@@ -63,16 +63,20 @@ const Footer = () => {
             <h4 className="text-lg font-semibold text-white">Our Services</h4>
             <div className="space-y-2">
               {[
-                'Vehicle History Reports',
-                'Accident History Check',
-                'Title Information',
-                'Service Records',
-                'Market Value Analysis',
-                'Recall Information'
+                { name: 'Vehicle History Reports', href: '/services/vehicle-history-reports' },
+                { name: 'Accident History Check', href: '/services/accident-history-check' },
+                { name: 'Title Information', href: '/services/title-information' },
+                { name: 'Service Records', href: '/services/service-records' },
+                { name: 'Market Value Analysis', href: '/services/market-value-analysis' },
+                { name: 'Recall Information', href: '/services/recall-information' }
               ].map((service) => (
-                <div key={service} className="text-gray-400 text-sm">
-                  {service}
-                </div>
+                <Link
+                  key={service.name}
+                  to={service.href}
+                  className="block text-gray-400 hover:text-blue-400 transition-colors text-sm"
+                >
+                  {service.name}
+                </Link>
               ))}
             </div>
           </div>
@@ -82,15 +86,15 @@ const Footer = () => {
             <h4 className="text-lg font-semibold text-white">Get in Touch</h4>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-red-400" />
+                <Mail className="w-5 h-5 text-blue-400" />
                 <span className="text-gray-400 text-sm">support@vinreporting.com</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-red-400" />
+                <Phone className="w-5 h-5 text-blue-400" />
                 <span className="text-gray-400 text-sm">1-800-VIN-REPORT</span>
               </div>
               <div className="flex items-center space-x-3">
-                <MapPin className="w-5 h-5 text-red-400" />
+                <MapPin className="w-5 h-5 text-blue-400" />
                 <span className="text-gray-400 text-sm">North America</span>
               </div>
             </div>
@@ -114,13 +118,13 @@ const Footer = () => {
             © 2025 VinReporting.com. All rights reserved.
           </div>
           <div className="flex space-x-6 text-sm">
-            <Link to="/privacy" className="text-gray-400 hover:text-red-400 transition-colors">
+            <Link to="/privacy" className="text-gray-400 hover:text-blue-400 transition-colors">
               Privacy Policy
             </Link>
-            <Link to="/terms" className="text-gray-400 hover:text-red-400 transition-colors">
+            <Link to="/terms" className="text-gray-400 hover:text-blue-400 transition-colors">
               Terms of Service
             </Link>
-            <Link to="/refund" className="text-gray-400 hover:text-red-400 transition-colors">
+            <Link to="/refund" className="text-gray-400 hover:text-blue-400 transition-colors">
               Refund Policy
             </Link>
           </div>
