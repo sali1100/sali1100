@@ -976,7 +976,7 @@ $page_title = "Admin Dashboard";
                                 </span>
                             </td>
                             <td>
-                                <button onclick="viewOrder(\'<?php echo $order["order_id"]; ?>\')" class="btn-small">View</button>
+                                <button onclick="viewOrder('<?php echo $order["order_id"]; ?>')" class="btn-small">View</button>
                                 <a href="resend-email.php?order=<?php echo $order["order_id"]; ?>" class="btn-small">Resend</a>
                             </td>
                         </tr>
