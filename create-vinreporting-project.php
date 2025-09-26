@@ -1073,7 +1073,7 @@ function generateEmailTemplate($order) {
                 </div>
                 <div class="detail-row">
                     <span><strong>Provider:</strong></span>
-                    <span>\' . ucfirst($order["provider"]) . \'</span>
+                    <span>' . ucfirst($order["provider"]) . '</span>
                 </div>
                 <div class="detail-row">
                     <span><strong>Amount:</strong></span>
