@@ -1029,7 +1029,7 @@ function sendOrderConfirmationEmail($order) {
 }
 
 function generateEmailTemplate($order) {
-    return '
+    return <<<HTML
 <!DOCTYPE html>
 <html>
 <head>
@@ -1054,38 +1054,38 @@ function generateEmailTemplate($order) {
         
         <div class="content">
             <h2>Order Confirmation</h2>
-            <p>Dear ' . $order["customer_name"] . ',</p>
+            <p>Dear {$order["customer_name"]},</p>
             <p>Thank you for choosing VinReporting.com. Your order has been successfully processed and your vehicle history report will be delivered shortly.</p>
             
             <div class="order-details">
                 <h3>Order Details</h3>
                 <div class="detail-row">
                     <span><strong>Order ID:</strong></span>
-                    <span>' . $order["order_id"] . '</span>
+                    <span>{$order["order_id"]}</span>
                 </div>
                 <div class="detail-row">
                     <span><strong>VIN:</strong></span>
-                    <span>' . $order["vin"] . '</span>
+                    <span>{$order["vin"]}</span>
                 </div>
                 <div class="detail-row">
                     <span><strong>Report Type:</strong></span>
-                    <span>' . $order["plan_name"] . '</span>
+                    <span>{$order["plan_name"]}</span>
                 </div>
                 <div class="detail-row">
                     <span><strong>Provider:</strong></span>
-                    <span>' . ucfirst($order["provider"]) . '</span>
+                    <span>{ucfirst($order["provider"])}</span>
                 </div>
                 <div class="detail-row">
                     <span><strong>Amount:</strong></span>
-                    <span>' . format_price($order["amount"]) . '</span>
+                    <span>{format_price($order["amount"])}</span>
                 </div>
                 <div class="detail-row">
                     <span><strong>Date:</strong></span>
-                    <span>' . date("F j, Y g:i A", strtotime($order["created_at"])) . '</span>
+                    <span>{date("F j, Y g:i A", strtotime($order["created_at"]))}</span>
                 </div>
             </div>
             
-            <h3>What\'s Next?</h3>
+            <h3>What's Next?</h3>
             <p>Your detailed vehicle history report is being generated and will be delivered to this email address within 15 minutes. The report will include:</p>
             <ul>
                 <li>Complete title history</li>
@@ -1099,11 +1099,12 @@ function generateEmailTemplate($order) {
         
         <div class="footer">
             <p>If you have any questions, please contact us at support@vinreporting.com</p>
-            <p>&copy; ' . date("Y") . ' VinReporting.com. All rights reserved.</p>
+            <p>&copy; {date("Y")} VinReporting.com. All rights reserved.</p>
         </div>
     </div>
 </body>
-</html>';
+</html>
+HTML;
 }
 ?>';
 
