@@ -2511,9 +2511,9 @@ foreach ($servicePages as $filename => $page) {
         }
     }
     
-    $serviceContent = \'<?php
+    $serviceContent = '<?php
 require_once "../includes/config.php";
-$page_title = "\' . $page["title"] . \'";
+$page_title = "' . $page["title"] . '";
 include "../includes/header.php";
 ?>
 
