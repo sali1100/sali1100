@@ -59,7 +59,7 @@ input double   RiskPercent           = 0.0;     // Risk % per trade (0=use BaseL
 input group "=== ENTRY SIGNAL ==="
 input int      MomentumBars          = 3;       // Fast MA period (bars)
 input int      BreakoutLookback      = 4;       // Slow MA extra bars (FastPeriod + this = SlowPeriod)
-input int      MaxSpreadPoints       = 30;      // Max allowed spread (points)
+input int      MaxSpreadPoints       = 500;     // Max allowed spread (raw broker points: ~30 for EURUSD, ~500 for XAUUSD)
 
 input group "=== SESSION FILTER (based on backtest hour distribution) ==="
 input bool     TradeHour00           = true;
@@ -154,9 +154,8 @@ void OnTick()
    int signal = GetEntrySignal();
    if(signal == 0) return;
 
-   // 5. Spread guard
+   // 5. Spread guard (SYMBOL_SPREAD is raw broker points: ~3 EURUSD, ~30-100 XAUUSD)
    int spread = (int)(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD));
-   if(_Digits == 5 || _Digits == 3) spread = spread; // already in points for 5-digit
    if(spread > MaxSpreadPoints) return;
 
    // 6. Execute entry
@@ -215,41 +214,36 @@ bool IsStrongHour()
 
 int GetEntrySignal()
 {
-   // Need enough bars on M1
-   if(Bars(_Symbol, PERIOD_M1) < MomentumBars + 5)
-      return 0;
-
-   // --- Fast EMA vs Slow EMA direction ---
-   // Using closes of the last MomentumBars bars to determine trend direction
-   // This generates high-frequency signals matching the original ~700 trades/day
-   double fastEMA = 0, slowEMA = 0;
-   int fastLen = MomentumBars;        // default 3
+   // Use PERIOD_CURRENT so signal works on any chart timeframe in the tester.
+   // (Using PERIOD_M1 from a non-M1 chart can return empty data in MT5 tester.)
+   int fastLen = MomentumBars;                    // default 3
    int slowLen = MomentumBars + BreakoutLookback; // default 7
 
-   // Simple average (EMA approximation over recent bars)
+   if(Bars(_Symbol, PERIOD_CURRENT) < slowLen + 2)
+      return 0;
+
+   double fastMA = 0, slowMA = 0;
+
    for(int i = 1; i <= fastLen; i++)
-      fastEMA += iClose(_Symbol, PERIOD_M1, i);
-   fastEMA /= fastLen;
+      fastMA += iClose(_Symbol, PERIOD_CURRENT, i);
+   fastMA /= fastLen;
 
    for(int i = 1; i <= slowLen; i++)
-      slowEMA += iClose(_Symbol, PERIOD_M1, i);
-   slowEMA /= slowLen;
+      slowMA += iClose(_Symbol, PERIOD_CURRENT, i);
+   slowMA /= slowLen;
 
-   double ask    = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
-   double bid    = SymbolInfoDouble(_Symbol, SYMBOL_BID);
-   double close1 = iClose(_Symbol, PERIOD_M1, 1);
-   double close2 = iClose(_Symbol, PERIOD_M1, 2);
+   double close1 = iClose(_Symbol, PERIOD_CURRENT, 1);
+   double close2 = iClose(_Symbol, PERIOD_CURRENT, 2);
 
-   // Confirm with last bar direction (bar must close in signal direction)
    bool lastBarBull = (close1 > close2);
    bool lastBarBear = (close1 < close2);
 
-   // Buy:  fast MA above slow MA + last bar was bullish
-   if(fastEMA > slowEMA && lastBarBull)
+   // Buy:  fast MA above slow MA + last bar bullish
+   if(fastMA > slowMA && lastBarBull)
       return 1;
 
-   // Sell: fast MA below slow MA + last bar was bearish
-   if(fastEMA < slowEMA && lastBarBear)
+   // Sell: fast MA below slow MA + last bar bearish
+   if(fastMA < slowMA && lastBarBear)
       return -1;
 
    return 0;
